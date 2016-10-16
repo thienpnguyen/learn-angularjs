@@ -6,7 +6,7 @@
 
     LunchCheckController.$inject = ['$scope'];
     function LunchCheckController($scope) {
-        $scope.lunchMenu = "1,2,3";
+        $scope.lunchMenu = "";
         $scope.resultMsg = "";
 
         $scope.submit = function () {
