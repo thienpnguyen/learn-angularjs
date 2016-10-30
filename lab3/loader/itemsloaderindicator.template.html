@@ -1,1 +1,27 @@
-<div class="loader"></div>
+<div  ng-if="list.items.length > 0">
+  <h3>Number of found items: {{list.items.length}}</h3>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Short name</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in list.items">
+        <td>{{$index+1}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.short_name}}</td>
+        <td>{{item.description}}</td>
+        <td><button ng-click="list.onRemove({index: $index});">Don't want this one!</button></td>
+      </tr>
+    </tbody>
+  </table>  
+</div>
+
+<div class="error" ng-if="list.items.errMsg != '' ">{{list.errMsg}}</div>
+<div class="error" ng-if="list.items.length == 0">Nothing found</div>
+
