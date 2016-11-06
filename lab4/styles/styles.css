@@ -1,0 +1,14 @@
+h1 {
+  margin-bottom: 30px;
+}
+
+li.category {
+  color: blue;
+}
+
+li.category:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+
+}
