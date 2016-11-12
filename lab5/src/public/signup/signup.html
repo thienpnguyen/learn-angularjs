@@ -1,0 +1,69 @@
+<div class="container" id="regForm">
+
+<fieldset>
+  <legend>Registration</legend>
+  <form name='regForm' novalidate>
+
+    <input type="text" name="firstname" placeholder="First name"
+      ng-model="signupCtrl.user.firstname"
+      required
+      minlength="2">
+      <span
+        ng-if="(regForm.firstname.$error.minlength || regForm.firstname.$error.required) && regForm.firstname.$touched">
+        First name must be at least 2 characters long
+      </span>
+      <br>
+
+      <input type="text" name="lastname" placeholder="Last name"
+        ng-model="signupCtrl.user.lastname"
+        required
+        minlength="2">
+        <span
+          ng-if="(regForm.lastname.$error.minlength || regForm.lastname.$error.required) && regForm.lastname.$touched">
+          Last name must be at least 2 characters long
+        </span>
+        <br>
+
+
+    <input type="email" name="email" placeholder="Email"
+      ng-model="signupCtrl.user.email"
+      required>
+      <span ng-if="regForm.email.$invalid && regForm.email.$touched">
+        Must be a valid email address: handle@domain format
+      </span>
+      <br>
+
+    <input type="text" name="phone" placeholder="Phone ###-###-####"
+      ng-model="signupCtrl.user.phone"
+      pattern="(\d{3})-(\d{3})-(\d{4})"
+      required>
+      <span ng-if="regForm.phone.$invalid && regForm.phone.$touched">
+        Phone must be in the format ###-###-####.
+      </span>
+      <br>
+
+      <input type="text" name="menuId" placeholder="Favorite menu Id"
+        ng-model="signupCtrl.user.menuId"
+        required
+        minlength="2"
+        ng-maxlength="6">
+        <span  ng-if="(regForm.menuId.$error.minlength || regForm.menuId.$error.required) && regForm.menuId.$touched">
+          MenuId must be at least 2 characters long
+        </span>
+        <span ng-if="regForm.menuId.$error.maxlength && regForm.menuId.$touched">
+          MenuId must not be longer than 6 characters
+        </span>
+        {{signupCtrl.errMsg}}
+        <br>
+
+    <button
+      ng-disabled="regForm.$invalid"
+      ng-click="signupCtrl.submit()">Submit</button>
+  </form>
+</fieldset>
+
+<div id="info" ng-if="signupCtrl.completed">
+  {{signupCtrl.summaryMsg}}
+</div>
+
+</div>
