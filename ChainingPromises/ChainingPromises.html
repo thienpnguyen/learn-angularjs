@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>AngularJs Chaining Promises</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+</head>
+<body ng-app="MyApp" ng-controller="MyCtrl as myCtrl">
+
+Demo how to use AngularJs promise. Please view output in the javsscript console.
+<script id="jsbin-javascript">
+// AngularJs Chaining Promises
+//      The method "promise's then(...)" return new promise.
+//      Therefore we can do promise.then( ... ).then(...).then(...)
+//References
+//  http://blog.xebia.com/promises-and-design-patterns-in-angularjs/
+//  https://jsbin.com/zocawaw/edit?js,console
+//  https://www.coursera.org/learn/single-page-web-apps-with-angularjs/discussions/all/threads/l5RvNoSgEearKBKQJr-skQ
+//  https://www.coursera.org/learn/single-page-web-apps-with-angularjs/discussions/weeks/3/threads/R-ajD4T1EearKBKQJr-skQ/replies/BxS2_oT5EeaFVxK6vFm5aw
+
+(function () {
+'use strict';
+
+
+angular.module('MyApp', [])
+       .controller('MyCtrl', MyCtrl);
+
+MyCtrl.$inject = ['$q', '$timeout'];
+function MyCtrl($q, $timeout) {
+    var myCtrl = this;
+    
+    function GenerateNumbersSync()    {
+        console.log('GenerateNumbersSync:enter');
+        var defer = $q.defer();
+        defer.resolve('3');
+        
+        var promise= defer.promise;        
+        promise
+            .then(function(num) {                
+                console.log("Sync", num); // num === 3 that comes from defer.resolve('3')
+                return --num; // next then will receive 2
+            })
+            .then(function(num) {
+                console.log("Sync", num); // num == 2
+                return --num; // next then will receive 1
+            })
+            .then(function (num) {
+                console.log("Sync", num); // num == 1
+                return --num;
+            });
+        console.log('GenerateNumbersSync:exit');
+            
+    }
+    
+    function GenerateNumbersAsync() {
+        console.log('GenerateNumbersAsync: enter');
+        var defer = $q.defer();
+        $timeout(function() {
+                        defer.resolve(3);
+                  }, 1000);
+          
+        var promise= defer.promise;        
+        promise
+            .then(function(num) {
+                console.log("Async", num);
+                return --num;
+            })
+            .then(function(num) {
+                console.log("Async", num);
+                return --num;
+            })
+            .then(function (num) {
+                console.log("Async", num);
+                return --num;
+            });
+        console.log('GenerateNumbersAsync: exit');
+    }
+    
+    GenerateNumbersSync();
+  
+    GenerateNumbersAsync();
+
+}
+
+   
+})();
+
+</script>
+</body>
+</html>
